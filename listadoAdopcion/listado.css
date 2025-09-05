@@ -1,0 +1,36 @@
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 20px;
+}
+
+/* titulo*/
+h1 {
+    text-align: center;
+    color: darkgreen;
+    margin-bottom: 20px;
+}
+
+/* tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #ddd;
+}
+
+/* cuando el mause pase por una fila*/
+tbody tr:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}

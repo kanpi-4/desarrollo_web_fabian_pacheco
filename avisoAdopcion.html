@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="tarea1.css">
+</head>
+<body>
+    <!--div donde estar el ultimo aviso, cuando ya se envio el formulario
+    en un principio tenia otra funcion, por eso se llama confirmarEnvioAdopcion
+    -->
+    <div class="confirmarEnvioAdopcion">
+        <div class="contenidoPopup">
+        <h2>Hemos recibido la información de
+adopción, muchas gracias y suerte! 👀</h2>
+        
+        <a href="tarea1.html">Volver a la portada</a>
+        
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+
+
+        <div class="1parteForm">
+            <h3>¿Donde?</h3>
+        <form name="myForm" method="post" enctype="multipart/form-data">
+            <label for="select-region">Region</label>
+            <select name="select-region" id="select-region" required>
+                <option value="">Seleccione Region</option>
+            </select><br>
+            <label for="select-comuna">Comuna</label>
+            <select name="select-comuna" id="select-comuna" required>
+                <option value="">Seleccione Comuna</option>
+            </select><br>
+
+            <label for="sectorAviso">Sector (opcional)</label>
+            <input type="text" minlength="4" maxlength="100"><br>
+        </div>
+
+
+
+
+
+        <div class="2parteForm">
+            <h3>Contacto de esta publicacion</h3>
+            <label for="nombre">Nombre</label>
+            <input type="nombre" name="nombre" id="nombre" minlength="3" maxlength="200"><br>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" maxlength="100" required><br>
+
+            <label for="phone">Telefono (opcional)</label>
+            <input type="text" name="phone" id="phone"><br>
+
+            <label for="select-contacto">Contacto por (opcional) </label>
+            <select name="select-contacto" id="select-contacto">
+                <option value="">Seleciones medio de contacto</option>
+                <option value="whatsapp">Whatsapp</option>
+                <option value="Instagram">Instagram</option>
+                <option value="X">X</option>
+                <option value="Tiktok">Tiktok</option>
+                <option value="Telegram">Telegram</option>
+                <option value="Otro">Otro</option>
+            </select>
+
+
+            <label for="reason" style="display: none;">Id de contacto o url de la red social</label>
+            <textarea name="comments" id="comments" rows="4" cols="50" style="display: none;" minlength="4" maxlength="50"></textarea><br>
+        </div>
+
+
+
+
+
+
+        <div class="3parteForm">   
+            <h3>¿Que mascota ofrece en adopcion?</h3> 
+            
+            <label for="tipo-mascota">Tipo</label>
+            <select name="tipo-mascota" id="tipo-mascota">
+                <option value="">Seleccionar Mascota</option>
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+            </select>
+            <br>
+
+            <label for="cantidad-mascota">Cantidad</label>
+            <input type="number" value="" name="cantidad-mascota" id="cantidad-mascota" min="1" required>
+            <br>
+
+            <label for="edad-mascota">Edad</label>
+            <input type="number" value="" name="edad-mascota" id="edad-mascota" min="1" required>
+            <br>
+
+            <label for="">Unidad Medida Edad</label>
+            <select name="unidad-medida" id="unidad-medida">
+                <option value="">Unidad de medida</option>
+                <option value="meses">Meses</option>
+                <option value="años">Años</option>
+            </select>
+            <br>
+
+            <label for="horamas3">Fecha disponible para entrega</label>
+            <input type="datetime-local" name="horamas3" id="horamas3"> 
+            <br>
+
+            <label for="">Descripcion (opcional)</label>
+            <br>
+            <textarea name="miTexto" maxlength="50" cols="50" rows="10"></textarea>
+            <br>
+
+
+
+            <label for="files" id="seccion-fotos">Fotos</label>
+             <br>
+            <input type="file" name="files" id="fotos">
+            <br>
+            <button type="button" id="boton-mas-fotos">Agregar mas fotos</button>
+            <br> 
+            <br>
+        </div>
+
+          
+
+            
+            
+            <button id="submit-btn" type="button">Agregar este aviso de adopción</button>
+        </form>
+    </div>
+
+        
+    </div>
+
+
+
+
+    
+</body>
+
+
+<script src="validation.js"></script>
+<script src="select.js"></script>
+<script src="fechapredeterminada.js"></script>
+<script src="maximofotos.js"></script>
+
+</html>
+
+
+
+
+
+
+
+
+

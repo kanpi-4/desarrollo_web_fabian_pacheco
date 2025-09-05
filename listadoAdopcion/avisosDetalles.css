@@ -1,0 +1,83 @@
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 20px;
+}
+
+/* titulo */
+h1 {
+    text-align: center;
+    color: darkgreen;
+    margin-bottom: 20px;
+}
+
+/*  */
+.detalles-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* info en columnas*/
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* texto dentro de cada grilla*/
+.info-item {
+    padding: 5px;
+}
+
+/* la descripcion le hacemos algo un poco mas destacado*/
+.descripcion {
+    padding: 10px;
+    background-color: #eee;
+}
+
+/* botones de volver */
+.botones a {
+    display: inline-block;
+    margin: 5px;
+    text-decoration: none;
+    color: darkblue;
+}
+
+/* esta es la parte que aparecera cuando se le de click a una imagen */
+#div-escondido {
+    position: absolute;
+    
+    left: 0;
+    width: 100%;
+    height: 90vw;
+    background-color: rgba(0,0,0,0.5); /* fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+    
+
+}
+#foto-grande{
+    position: fixed;
+}
+#cerrar{
+    position: fixed;
+    width: 150px;
+    height: 50px;
+    background-color: red;
+}
+
+
+.detalles-section img {
+    width: 320px;
+    height: 240px;
+    
+}
+
+
+
+
+
+
+
