@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Portada
+{% endblock title %}
+
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tarea1.css') }}">
+{% endblock %}
+
+
+
+{% block content %}   
+    <!--  html basico, con un navegador como lista, y la tabla con los datos inventados-->
+    <h1>Hola bienvenido a la pagina de adopcion de gatitos y perritos</h1>
+    
+    <nav class="menu">
+        <ul>
+            <li><a href="{{url_for('anadir_aviso') }}">Agregar aviso</a></li>
+            <li><a href="{{url_for('lista_avisos') }}">Ver listado</a></li>
+            <li><a href="estadisticas/estadisticas.html">Estadisticas</a></li>
+        </ul>
+    </nav>
+    
+    <table border="2" class="tablaUltimos">
+        <tr>
+            <th>Fecha publicación</th>
+            <th>Comuna</th>
+            <th>Sector</th>
+            <th>Cantidad Tipo edad</th>
+            <th>Foto</th>
+        </tr>
+{% if avisos %}
+    {% for aviso in avisos%}
+    <tr>
+    <td>{{aviso.fechaPublicacion}}</td>
+    <td>{{aviso.comuna}}</td>
+    <td>{{aviso.sector}}</td>
+    <td>{{aviso.cantidad}} {{aviso.tipo}} {{aviso.edad}} {{aviso.edadMedida}}</td>
+    <td><img src="{{aviso.path_image}}" class="fotosDelMenu" alt=""></td>
+    </tr>
+    {% endfor%}
+{%else%}
+<tr>
+<td>No hay avisos</td>
+</tr>
+
+{% endif %}
+    </table>
+   
+
+
+
+{% endblock content %}
+
+
+
+{% block javascript %}
+   
+{% endblock %}
+
+
+
+
+

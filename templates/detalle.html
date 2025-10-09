@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Aviso
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tarea1.css') }}">
+{% endblock %}
+
+{% block content %}    
+<h1>Detalles de info de Adopción</h1>
+    
+<h2>Información de Contacto</h2>
+<div class="info-item">
+    <span class="label">Nombre:</span> {{ info.nombre }}
+</div>
+<div class="info-item">
+    <span class="label">Celular:</span> {{info.celular}}
+</div>
+<div class="info-item">
+    <span class="label">Email:</span>{{info.email}}
+</div>
+
+<h2>Ubicación</h2>
+<div class="info-item">
+    <span class="label">Región:</span>{{region}}
+</div>
+<div class="info-item">
+    <span class="label">Sector:</span> {{info.sector}}
+</div>
+<div class="info-item">
+    <span class="label">Comuna:</span> {{comuna}}
+</div>
+
+<h2>Información de la Mascota</h2>
+<div class="info-item">
+    <span class="label">Tipo de mascota:</span> {{info.tipo}}
+</div>
+<div class="info-item">
+    <span class="label">Edad:</span> {{info.edad}}{{info.unidad_medida}}
+</div>
+<div class="info-item">
+    <span class="label">Cantidad:</span> {{info.cantidad}}
+</div>
+<div class="info-item">
+    <span class="label">Fecha Disponible:</span> {{info.fecha_entrega}}
+</div>
+<div class="info-item">
+    <span class="label">Descripcion:</span> {{info.descripcion}}
+</div>
+<div class="info-item">
+    {% for foto in fotos%}
+    <img src="{{foto}}" alt="Foto de mascota" class="fotoDetalle">
+    {% endfor%}
+</div>
+
+<!-- Modal corregido -->
+<div id="modal-foto" class="modal-hidden">
+    <div class="modal-content">
+        <img id="modal-imagen" src="" alt="Vista ampliada">
+        <button id="cerrar-modal">Cerrar</button>
+    </div>
+</div>
+    
+<a href="{{url_for('portada') }}">Volver a la portada</a>
+<a href="{{url_for('lista_avisos') }}">Volver a la lista</a>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/detalle.js') }}"></script>
+{% endblock %}

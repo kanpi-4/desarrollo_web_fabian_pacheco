@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Lista adopcion
+{% endblock title %}
+
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tarea1.css') }}">
+{% endblock %}
+
+
+
+{% block content %}    
+<!-- Mostrar avisos -->
+ <table border="2" class="tablaUltimos">
+        <tr>
+            <th>Fecha publicación</th>
+            <th>Fecha entrega</th>
+            <th>Comuna</th>
+            <th>Sector</th>
+            <th>Cantidad Tipo edad</th>
+            <th>Nombre Contacto</th>
+            <th>Cantidad Fotos</th>
+        </tr>
+{% if avisos %}
+    {% for aviso in avisos%}
+
+    <tr style="cursor:pointer;" id="{{ url_for('detalle_aviso', aviso_id=aviso.id) }}">
+
+    <td>{{aviso.fechaPublicacion}}</td>
+    <td>{{aviso.fecha_entrega}}</td>
+    <td>{{aviso.comuna}}</td>
+    <td>{{aviso.sector}}</td>
+    <td>{{aviso.cantidad}} {{aviso.tipo}} {{aviso.edad}} {{aviso.edadMedida}}</td>
+    <td>{{aviso.nombre}}</td>
+    <td>{{aviso.cantidadFotos}}</td>
+    </tr>
+    {% endfor%}
+
+{%else%}
+<tr>
+<td>No hay avisos</td>
+</tr>
+
+{% endif %}
+    </table>
+<!-- Botones de paginación -->
+<div class="pagination">
+    {% if current_page > 1 %}
+        <a href="{{ url_for('lista_avisos', page=current_page-1) }}">Anterior</a>
+    {% endif %}
+    
+    <span>Página {{ current_page }}</span>
+    
+    {% if current_page < total_pages %}
+        <a href="{{ url_for('lista_avisos', page=current_page+1) }}">Siguiente</a>
+    {% endif %}
+</div>
+<a href="{{url_for('portada') }}">Volver a la portada</a>
+{% endblock content %}
+
+
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/lista.js') }}"></script>
+   
+{% endblock %}

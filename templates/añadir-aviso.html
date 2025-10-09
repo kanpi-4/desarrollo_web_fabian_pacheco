@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+añadir aviso
+{% endblock title %}
+
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tarea1.css') }}">
+{% endblock %}
+
+{% block content %} 
+
+{% if errores %}
+<div class="alert alert-danger">
+  <ul>
+    {% for e in errores %}
+    <li>{{ e }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" name="myForm">
+    <!--mensajes de cosas invalidas, y aparecera un boton de confirmar 
+    los datos para enviar o hacerlo denuevo -->
+    <div class="main-container">
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+    </div>
+
+<h3>Contacto de esta publicacion</h3>
+    <input type="text" name="nombre" placeholder="Tu nombre" required>
+    <br>
+    <input type="email" name="email" placeholder="Email" required>
+<br>
+     <input type="text" name="celular" placeholder="Celular (opcional)">
+    
+    <br>
+
+
+
+
+    
+
+
+
+    <h3>¿Donde?</h3>
+    <label>Región:</label>
+    <select id="select-region" name="region_id">
+        <option value="">Seleccione Región</option>
+        {% for region in regiones %}
+        <option value="{{ region.id }}">{{ region.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <br>
+    
+    <label>Comuna:</label>
+    <select id="select-comuna" name="comuna_id" required>
+        <option value="">Seleccione Comuna</option>
+        {% for comuna in comunas %}
+        <option value="{{ comuna.id }}">{{ comuna.nombre }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label>sector</label>    
+    <input type="text" name="sector" placeholder="Sector (opcional)">
+
+
+
+
+
+
+    <!-- Tipo de animal -->
+    <h3>¿Que mascota ofrece en adopcion?</h3>
+    <label>Tipo:</label>
+    <select name="tipo" required>
+        <option value="perro">Perro</option>
+        <option value="gato">Gato</option>
+    </select>
+    <br>
+    <!-- Cantidad -->
+     <label>Cantidad:</label>
+    <input type="number" name="cantidad" placeholder="Cantidad" min="1" required>
+    <br>
+    <!-- Edad -->
+     <label>Edad:</label>
+    <input type="number" name="edad" placeholder="Edad" min="0" required>
+    <br>
+    <!-- Unidad de medida -->
+    <label>Unidad de medida:</label>
+    <select name="unidad_medida" required>
+        <option value="a">Años</option>
+        <option value="m">Meses</option>
+    </select>
+    <br>
+    <!-- Fecha de entrega -->
+     <label>Fecha de entrega</label>
+    <input type="date" name="fecha_entrega" required>
+    <br>
+    <!-- Descripción -->
+     <label>Descripcion</label>
+    <textarea name="descripcion" placeholder="Descripción"></textarea>
+    <br>
+
+
+
+    <label for="files" id="seccion-fotos">Fotos</label>
+            <br>
+    <input type="file" name="aviso-img" id="fotos">
+    <br>
+    <button type="button" id="boton-mas-fotos">Agregar mas fotos</button>
+    <br> 
+    <br>
+    
+    
+    
+    
+    
+    
+</form>
+
+<!--si se valida el form en js se mostrara este con un boton para confirmar y
+    enviar los datos de verdad (aunque faltaria ver la confirmacion con python)-->
+<button id="enviarForm" type="button">Enviar</button>
+    
+<a href="{{url_for('portada') }}">Volver a la portada</a>
+    
+{% endblock content %}
+
+
+
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/añadir_mas_fotos.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/validaciones.js') }}"></script>
+<script>
+// JavaScript para cargar comunas dinámicamente
+document.getElementById('select-region').addEventListener('change', function() {
+    const regionId = this.value;
+    const comunaSelect = document.getElementById('select-comuna');
+    
+    if (regionId) {
+        fetch(`/api/comunas/${regionId}`)
+            .then(response => response.json())
+            .then(comunas => {
+                comunaSelect.innerHTML = '<option value="">Seleccione Comuna</option>';
+                comunas.forEach(comuna => {
+                    const option = document.createElement('option');
+                    option.value = comuna.id;
+                    option.textContent = comuna.nombre;
+                    comunaSelect.appendChild(option);
+                });
+            });
+    } else {
+        comunaSelect.innerHTML = '<option value="">Seleccione Comuna</option>';
+    }
+});
+</script>
+   
+{% endblock %}
+
+
+
+
+
+
