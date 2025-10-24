@@ -55,6 +55,34 @@ Aviso
     {% endfor%}
 </div>
 
+
+
+
+<h3>Comentarios</h3>
+
+<div id="comentarios"></div>
+
+<h4>Agregar comentario</h4>
+<form id="formComentario">
+  <label>Nombre:</label><br>
+  <input type="text" id="nombre" name="nombre" required minlength="3" maxlength="80"><br>
+  <label>Comentario:</label><br>
+  <textarea id="texto" name="texto" rows="4" cols="50" required minlength="5" maxlength="300"></textarea><br>
+  <button type="submit">Agregar comentario</button>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Modal corregido -->
 <div id="modal-foto" class="modal-hidden">
     <div class="modal-content">
@@ -62,11 +90,16 @@ Aviso
         <button id="cerrar-modal">Cerrar</button>
     </div>
 </div>
+
+
+
+
     
 <a href="{{url_for('portada') }}">Volver a la portada</a>
 <a href="{{url_for('lista_avisos') }}">Volver a la lista</a>
 {% endblock content %}
 
 {% block javascript %}
+<script src="{{ url_for('static', filename='js/comentarios.js') }}"></script>
 <script src="{{ url_for('static', filename='js/detalle.js') }}"></script>
 {% endblock %}

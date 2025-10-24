@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from database import SessionLocal, engine, Base, get_aviso,get_foto_by_id,get_comuna_by_id, aviso_vacio, get_aviso_ultimos, numero_de_avisos, get_fotos_by_id,get_fotos,cantidad_fotos_por_id,get_aviso_by_id,get_region_by_id
+from database import SessionLocal, engine, Base, get_aviso,get_foto_by_id,get_comuna_by_id, aviso_vacio, get_aviso_ultimos, numero_de_avisos, get_fotos_by_id,get_fotos,cantidad_fotos_por_id,get_aviso_by_id,get_region_by_id, get_comentarios_by_aviso,insertar_comentario
 from models import AvisoAdopcion, ContactarPor, Comuna, Region, nuevaFoto
 from datetime import datetime
 import filetype
 import os
 import hashlib
 from werkzeug.utils import secure_filename
+
+
+
 
 
 from validaciones import *
@@ -180,6 +183,7 @@ def lista_avisos(page=1):  # page=1 por defecto
 def detalle_aviso(aviso_id):
     aviso = get_aviso_by_id(aviso_id)
     dataAviso=({
+        "id": aviso.id, 
         "nombre":aviso.nombre,
         "email":aviso.email,
         "sector":aviso.sector,
@@ -207,6 +211,83 @@ def detalle_aviso(aviso_id):
     return render_template('detalle.html', info=dataAviso,comuna=comuna,region=region,fotos=fotos)
 
     
+    
+    
+
+#rutas para los comentarios
+
+@app.route('/api/comentarios/<int:aviso_id>', methods=['GET'])
+def api_get_comentarios(aviso_id):
+    comentarios = get_comentarios_by_aviso(aviso_id)
+    data = [{
+        "nombre": c.nombre,
+        "texto": c.texto,
+        "fecha": c.fecha.strftime("%Y-%m-%d %H:%M:%S")
+    } for c in comentarios]
+    return jsonify(data)
+
+
+@app.route('/api/comentarios/<int:aviso_id>', methods=['POST'])
+def api_post_comentario(aviso_id):
+    data = request.get_json()
+    nombre = data.get("nombre", "").strip()
+    texto = data.get("texto", "").strip()
+
+    errores = []
+    if not (3 <= len(nombre) <= 80):
+        errores.append("el nombre debe tener entre 3 y 80 caracteres.")
+    if not (5 <= len(texto) <= 300):
+        errores.append("el comentario debe tener entre 5 y 300 caracteres.")
+
+    if errores:
+        return jsonify({"errores": errores}), 400
+
+    insertar_comentario(nombre, texto, aviso_id)
+    return jsonify({"mensaje": "comentario agregado exitosamente."}), 201
+
+
+
+#estadisticas
+@app.route('/estadisticas')
+def estadisticas():
+    return render_template('estadisticas.html')
+
+
+@app.route('/api/estadisticas')
+def api_estadisticas():
+    from sqlalchemy import func, extract
+    db = SessionLocal()
+
+    # cantidad por dia
+    por_dia = db.query(
+        func.date(AvisoAdopcion.fecha_ingreso).label('dia'),
+        func.count(AvisoAdopcion.id)
+    ).group_by('dia').order_by('dia').all()
+
+    # tipo
+    por_tipo = db.query(
+        AvisoAdopcion.tipo,
+        func.count(AvisoAdopcion.id)
+    ).group_by(AvisoAdopcion.tipo).all()
+
+    # por mes y tipo 
+    por_mes_tipo = db.query(
+        extract('month', AvisoAdopcion.fecha_ingreso).label('mes'),
+        AvisoAdopcion.tipo,
+        func.count(AvisoAdopcion.id)
+    ).group_by('mes', AvisoAdopcion.tipo).order_by('mes').all()
+
+    db.close()
+
+    return jsonify({
+        "por_dia": [{"dia": str(d), "cantidad": c} for d, c in por_dia],
+        "por_tipo": [{"tipo": t, "cantidad": c} for t, c in por_tipo],
+        "por_mes_tipo": [{"mes": int(m), "tipo": t, "cantidad": c} for m, t, c in por_mes_tipo]
+    })
+
+    
+    
+
     
 if __name__ == "__main__":
     app.run(debug=True)

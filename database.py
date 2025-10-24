@@ -2,6 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from models import AvisoAdopcion, nuevaFoto, Comuna,Region
 
+
+#para la parte de comentarios
+from models import Comentario
+from datetime import datetime
+
 DB_USER = "cc5002"
 DB_PASSWORD = "programacionweb"
 DB_HOST = "localhost"
@@ -91,3 +96,25 @@ def get_region_by_id(id):
     region=session.query(Region).filter_by(id=id).first()
     session.close()
     return region
+
+
+
+#funciones para los comentarios
+
+def get_comentarios_by_aviso(aviso_id):
+    session = SessionLocal()
+    comentarios = session.query(Comentario).filter_by(aviso_id=aviso_id).order_by(Comentario.fecha.desc()).all()
+    session.close()
+    return comentarios
+
+def insertar_comentario(nombre, texto, aviso_id):
+    session = SessionLocal()
+    nuevo = Comentario(
+        nombre=nombre,
+        texto=texto,
+        fecha=datetime.now(),
+        aviso_id=aviso_id
+    )
+    session.add(nuevo)
+    session.commit()
+    session.close()
