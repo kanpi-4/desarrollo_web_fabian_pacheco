@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Avisos - Evaluar</title>
+    <script src="/js/evaluar.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+<h1>Listado de avisos</h1>
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Fecha publicación</th>
+        <th>Sector</th>
+        <th>Cantidad</th>
+        <th>Tipo</th>
+        <th>Edad</th>
+        <th>Comuna</th>
+        <th>Nota</th>
+        <th>Acción</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dto : ${avisos}">
+        <td th:text="${dto.aviso.id}">1</td>
+
+        <!-- FECHA INGRESO -->
+         <td th:text="${#temporals.format(dto.aviso.fechaIngreso, 'yyyy-MM-dd')}">2025-06-02</td>
+
+
+        <td th:text="${dto.aviso.sector}">Sector</td>
+        <td th:text="${dto.aviso.cantidad}">1</td>
+        <td th:text="${dto.aviso.tipo}">gato</td>
+
+        <td>
+            <span th:text="${dto.aviso.edad}">2</span>
+
+            <!-- UNIDAD DE MEDIDA -->
+            <span th:text="${dto.aviso.unidadMedida == 'm' ? 'mes(es)' : 'año(s)'}"></span>
+        </td>
+
+        <td th:text="${dto.aviso.comuna != null ? dto.aviso.comuna.nombre : '-'}">Santiago</td>
+
+        <td>
+            <span th:if="${dto.contador == 0}">-</span>
+            <span th:if="${dto.contador > 0}"
+             th:text="${#numbers.formatDecimal(dto.promedio, 1, 1)}">6.0</span>
+
+            <br/>
+            <small th:text="${dto.contador > 0 ? '(' + dto.contador + ' nota(s))' : ''}"></small>
+        </td>
+
+        <td>
+    <button type="button"
+            th:attr="data-aviso-id=${dto.aviso.id}"
+            onclick="evaluar(this)">
+        Evaluar
+    </button>
+</td>
+
