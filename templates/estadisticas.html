@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Estadísticas{% endblock %}
+{% block content %}
+<h1>Estadísticas de adopción</h1>
+<div id="grafico1" style="height:400px;"></div>
+<div id="grafico2" style="height:400px;"></div>
+<div id="grafico3" style="height:400px;"></div>
+<a href="{{ url_for('portada') }}">Volver a la portada</a>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{{ url_for('static', filename='js/estadisticas.js') }}"></script>
+{% endblock %}
